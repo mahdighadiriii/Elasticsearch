@@ -1,0 +1,14 @@
+filebeat.inputs:
+  - type: container
+    paths:
+      - '/var/lib/docker/containers/*/*.log'
+    json.keys_under_root: true
+    json.add_error_key: true
+
+output.elasticsearch:
+  hosts: ["elasticsearch:9200"]
+  index: "docker-logs-%{+yyyy.MM.dd}"
+
+setup.ilm.enabled: false
+setup.template.name: "docker-logs"
+setup.template.pattern: "docker-logs-*"
